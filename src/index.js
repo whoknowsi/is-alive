@@ -24,17 +24,22 @@ app.get(`/check`, async (c) => {
     })
   }
 
+
   try {
     const response = await fetch(url)
-    const isAlive = response.status >= 200 && response.status < 300 
-    const tooManyRequest = response.status === 429
+    let status = response.status
+
+    const isSameUrl = c.req.url.split('/check')[0] === url || (c.req.url.split('/check')[0] + '/') === url
+    if(isSameUrl) status = 200
+
+    const isAlive = status >= 200 && status < 300
+    const tooManyRequest = status === 429
 
     return c.json({
-      status: response.status,
+      status,
       message: tooManyRequest ? 'UNKNOW' : isAlive ? 'OK' : 'DOWN'
     })
   } catch (e) {
-    console.log(e)
     return c.json({
       message: e
     })
