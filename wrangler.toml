@@ -1,0 +1,8 @@
+name = "is-alive"
+main = "src/index.js"
+compatibility_date = "2023-01-12"
+usage_model = "bundled"
+env = { }
+
+[triggers]
+crons = [ ]
